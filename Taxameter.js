@@ -16,23 +16,34 @@
  */
 class Taxameter {
 
-    constructor() {
+    constructor(priceStrategy) {
         this.afstand = 0;
+        this.priceStrategy = priceStrategy;
+        this.calulatePrice = priceStrategy.calulatePrice;
         this.turStartetTidspunkt = undefined;
-    }
+    } 
 
     startTur() {
         this.turStartetTidspunkt = new Date();
+      
     }
 
     slutTur() {
-
+      this.afstand = 0;
+      this.turStartettidpunkt = undefined;
     }
 
     koer(delta_afst) {
+       this.afstand+=delta_afst*5;
     }
 
     beregnPris() {
-        return 0;
+       if (this.turStartetTidspunkt == undefined){
+           return 0;
+       } else {
+           var tidgaaet = (((this.clock.now()-this.turStartetTidspunkt)/1000)/60)
+           return this.calulatePrice(this.afstand, tidgaaet);
+       }
+       
     }
 }
